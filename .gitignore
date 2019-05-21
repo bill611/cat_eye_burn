@@ -3,3 +3,4 @@
 *.bak
 *.ini*
 *.png
+.DS_Store
