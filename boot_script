@@ -1,0 +1,15 @@
+#!/bin/sh
+
+. /data/net_path.sh
+
+# 开机加载wifi模块
+./wifi_init.sh
+
+# 判断开机是否启动wifi
+wifi_enable=`busybox awk 'BEGIN {FS="="}/\[wireless\]/{a=1} a==1&&$1~/^enable/{gsub(/\"/,"",$2);gsub(/\;.*/, "", $2);gsub(/^[[:blank:]]*/,"",$2);print $2}' $inifile`
+if [ "$wifi_enable" = "1" ] then
+	./check_ip.sh 
+if
+
+
+

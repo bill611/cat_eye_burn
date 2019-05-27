@@ -16,6 +16,10 @@ usage()
 	exit 3
 }
 
+stop_shell()
+{
+	busybox killall finish_station.sh
+}
 stop_station()
 {
 	echo "stop wifi station......"
@@ -30,32 +34,23 @@ stop_softap ()
 	busybox killall -9 hostapd
 }
 
-stop_module ()
-{
-		busybox rmmod /root/lib/modules/cfg80211.ko
-		busybox rmmod /root/lib/modules/mac80211.ko
-		busybox rmmod /root/lib/modules/rkwifi_sys_iface.ko
-		busybox rmmod /root/lib/modules/bcmdhd.ko
-}
-
-
 #
 # main:
 #
 
 case "$MODE" in
 	all)
+		stop_shell
 		stop_station
 		stop_softap
-		stop_module	
 		;;
 	station)
+		stop_shell
 		stop_station
-		stop_module	
 		;;
 	softap)
+		stop_shell
 		stop_softap	
-		stop_module	
 		;;
 	*)
 		usage

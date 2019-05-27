@@ -1,10 +1,10 @@
 #! /bin/sh
 ### BEGIN INIT INFO
-# File:				wifi_connect.sh	
-# Provides:         wifi connet to other AP 
+# File:				wifi_connect.sh
+# Provides:         wifi connet to other AP
 # Required-Start:   $
 # Required-Stop:
-# Default-Start:     
+# Default-Start:
 # Default-Stop:
 # Short-Description:start wifi connet service
 # Author:			gao_wangsheng
@@ -24,8 +24,6 @@ NET_ID=
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin
 
 . /data/net_path.sh
-mkdir -p /var/lib/misc
-mkdir -p /var/run/
 
 usage()
 {
@@ -35,11 +33,10 @@ usage()
 
 start_wifi_service()
 {
-	busybox insmod /root/lib/modules/cfg80211.ko
-	busybox insmod /root/lib/modules/mac80211.ko
-	busybox insmod /root/lib/modules/rkwifi_sys_iface.ko
-	busybox insmod /root/lib/modules/bcmdhd.ko                        
-	                                                
+	busybox killall finish_station.sh
+	busybox killall wpa_supplicant
+	busybox killall udhcpc
+
 	sleep 1
 	ifconfig wlan0 up
 	wpa_supplicant -B -iwlan0 -Dnl80211 -c $wifi_path/wpa_supplicant.conf
@@ -85,8 +82,6 @@ connet_wpa()
 	check_ssid_exist
 	if [ "$NET_ID" = "" ];then
 		{
-			wpa_cli -iwlan0 scan
-			wpa_cli -iwlan0 scan_r
 			wpa_cli -iwlan0 add_network
 			wpa_cli -iwlan0 set_network 0 ssid $SSID
 			wpa_cli -iwlan0 set_network 0 key_mgmt WPA-PSK
@@ -98,7 +93,7 @@ connet_wpa()
 		}
 	fi
 
-	finish_station_connect 0 
+	finish_station_connect 0
 }
 
 connet_wep()
@@ -120,7 +115,7 @@ connet_wep()
 					KEY=$wepkey2;
 					echo $KEY
 				}
-			fi				
+			fi
 			sh -c "wpa_cli -iwlan0 set_network $NET_ID wep_key${KEY_INDEX} $KEY"
 		}
 	elif [ "$GPSK" != "" ];then
@@ -133,7 +128,7 @@ connet_wep()
 					KEY=$wepkey2;
 					echo $KEY
 				}
-			fi	
+			fi
 			sh -c "wpa_cli -iwlan0 set_network $NET_ID wep_key${KEY_INDEX} $KEY"
 		}
 	fi
@@ -149,13 +144,13 @@ connet_open()
 	check_ssid_exist
 	if [ "$NET_ID" = "" ];then
 	{
-		NET_ID=`wpa_cli -iwlan0 add_network`
-		sh -c "wpa_cli -iwlan0 set_network $NET_ID ssid $SSID"
-		wpa_cli -iwlan0 set_network $NET_ID key_mgmt NONE
+		wpa_cli -iwlan0 add_network
+		wpa_cli -iwlan0 set_network 0 ssid $SSID
+		wpa_cli -iwlan0 set_network 0 key_mgmt NONE
 	}
 	fi
 
-	finish_station_connect $NET_ID
+	finish_station_connect 0
 }
 
 connect_adhoc()
@@ -204,16 +199,16 @@ case "$MODE" in
 	wpa)
 		check_ssid_ok
 		check_password_ok
-		connet_wpa 
+		connet_wpa
 		;;
 	wep)
 		check_ssid_ok
 		check_password_ok
-		connet_wep 
+		connet_wep
 		;;
 	open)
 		check_ssid_ok
-		connet_open 
+		connet_open
 		;;
 	adhoc)
 		check_ssid_ok

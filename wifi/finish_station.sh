@@ -16,7 +16,7 @@ check_ip_and_start ()
 	do
 		echo "Getting ip address..."
 		busybox killall -9 udhcpc
-		busybox udhcpc -n -t 10 -i wlan0 -s /etc/default.script
+		udhcpc -n -t 10 -i wlan0 -s /etc/default.script
 		wpa_cli -iwlan0 status
 		status=`ifconfig wlan0 | grep "inet addr:"`
 	done
