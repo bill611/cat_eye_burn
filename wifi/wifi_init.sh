@@ -1,5 +1,7 @@
 #! /bin/sh
 
+echo "--------wifi_init.sh start--------"
+
 mkdir -p /var/lib/misc
 mkdir -p /var/run/
 
@@ -10,11 +12,6 @@ busybox insmod /root/lib/modules/bcmdhd.ko
 
 sleep 1
 
-echo "------------------------------------"
-echo "------------------------------------"
-echo "wifi_wifi.sh exit"
-echo "------------------------------------"
-echo "------------------------------------"
-exit 0
+echo "--------wifi_init.sh exit--------"
 
 

@@ -6,6 +6,7 @@
 # Date:				2018-09-13
 ### END INIT INFO
 
+echo "--------finish_station start--------"
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin
 
 . /data/net_path.sh
@@ -17,7 +18,6 @@ check_ip_and_start ()
 		echo "Getting ip address..."
 		busybox killall -9 udhcpc
 		udhcpc -n -t 10 -i wlan0 -s /etc/default.script
-		wpa_cli -iwlan0 status
 		status=`ifconfig wlan0 | grep "inet addr:"`
 	done
 }
@@ -61,3 +61,5 @@ do
 	sleep 1
 	supplicant=`ps |grep wpa_supplicant`
 done
+echo "--------finish_station exit--------"
+exit 0

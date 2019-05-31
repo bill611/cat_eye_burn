@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh 
 ### BEGIN INIT INFO
 # File:				wifi_connect.sh
 # Provides:         wifi connet to other AP
@@ -12,6 +12,7 @@
 # Date:				2012-8-2
 ### END INIT INFO
 
+echo "--------wifi_connect.sh start--------"
 MODE=$1
 GSSID="$2"
 SSID=\"$GSSID\"
@@ -37,7 +38,6 @@ start_wifi_service()
 	busybox killall wpa_supplicant
 	busybox killall udhcpc
 
-	sleep 1
 	ifconfig wlan0 up
 	wpa_supplicant -B -iwlan0 -Dnl80211 -c $wifi_path/wpa_supplicant.conf
 }
@@ -68,10 +68,7 @@ check_ssid_exist()
 
 finish_station_connect()
 {
-#	wpa_cli -iwlan0 set_network $1 scan_ssid 1
-#	wpa_cli -iwlan0 enable_network $1
 	wpa_cli -iwlan0 select_network $1
-#	wpa_cli -iwlan0 save_config
 	$wifi_path/finish_station.sh &
 }
 
@@ -218,11 +215,7 @@ case "$MODE" in
 		usage
 		;;
 esac
-echo "------------------------------------"
-echo "------------------------------------"
-echo "wifi_connect.sh exit"
-echo "------------------------------------"
-echo "------------------------------------"
+echo "--------wifi_connect.sh exit--------"
 exit 0
 
 
