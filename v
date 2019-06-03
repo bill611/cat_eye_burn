@@ -1,1 +1,1 @@
-../code/out/cat_eye
+../code/debug/cat_eye

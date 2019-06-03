@@ -4,5 +4,6 @@
 *.ini*
 .DS_Store
 *.db
+*.db_bak
 *.txt
 imei.png
