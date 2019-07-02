@@ -6,7 +6,7 @@
 ### END INIT INFO
 
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin
-. /data/net_path.sh
+. /root/usr/net_path.sh
 MODE=$1
 
 set_ssid_and_password()
@@ -29,7 +29,6 @@ do_start () {
 
 	busybox insmod /root/lib/modules/cfg80211.ko
 	busybox insmod /root/lib/modules/mac80211.ko
-	busybox insmod /root/lib/modules/rkwifi_sys_iface.ko
 	busybox insmod /root/lib/modules/bcmdhd.ko
 
 	set_ssid_and_password

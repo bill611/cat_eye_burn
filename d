@@ -7,4 +7,10 @@ if [ ! -e "/temp/v" ] ;then
 	mount -t nfs -o nolock 172.16.1.102:/home/xubin/work/arm_share/cat_eye /temp
 fi
 
+if [ $# == 1  ]; then
+	echo "cp /temp/v ."
+	cp /temp/v .
+	./v
+fi
+
 

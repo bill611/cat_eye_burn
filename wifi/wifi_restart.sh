@@ -7,7 +7,7 @@
 ##
 
 PATH=$PATH:/bin:/sbin:/usr/bin:/usr/sbin
-. /data/net_path.sh
+. /root/usr/net_path.sh
 MODE=
 
 usage()

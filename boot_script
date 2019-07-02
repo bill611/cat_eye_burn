@@ -4,17 +4,14 @@ export PATH=/bin:/sbin:/usr/local/bin:/usr/local/sbin:/root/bin:/root/sbin:/data
 
 
 ### tslib env
-export TSLIB_TSEVENTTYPE=INPUT
-export TSLIB_CONSOLEDEVICE=none
-export TSLIB_FBDEVICE=/dev/fb0
-export TSLIB_TSDEVICE=/dev/input/event0
-export TSLIB_CALIBFILE=/etc/pointercal
-export TSLIB_CONFFILE=/etc/ts.conf
-export TSLIB_PLUGINDIR=/lib/ts
+source /etc/ts_env.sh
+ulimit -c unlimited
+cd /root/usr
 
-cd /data
+. /root/usr/net_path.sh
 
-. /data/net_path.sh
+cp face_model/rkdsp.bin /lib/firmware/ 
+insmod rs.ko
 
 # 开机加载wifi模块
 ./wifi/wifi_init.sh
@@ -23,5 +20,8 @@ cd /data
 wifi_enable=`busybox awk 'BEGIN {FS="="}/\[wireless\]/{a=1} a==1&&$1~/^enable/{gsub(/\"/,"",$2);gsub(/\;.*/, "", $2);gsub(/^[[:blank:]]*/,"",$2);print $2}' $inifile`
 if [ "$wifi_enable" = "1" ]; then
 	./wifi/wifi_start.sh
+#	./d
 fi
+
+
 

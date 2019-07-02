@@ -9,7 +9,7 @@
 ### END INIT INFO
 #
 
-. /data/net_path.sh
+. /root/usr/net_path.sh
 #AP_FILE=hostapd.conf
 # AP_FILE=/mnt/nand/hostapd.conf
 AP_NAME=$2
