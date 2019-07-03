@@ -19,6 +19,7 @@ check_ip_and_start ()
 		busybox killall -9 udhcpc
 		udhcpc -n -t 10 -i wlan0 -s /etc/default.script
 		status=`ifconfig wlan0 | grep "inet addr:"`
+		sleep 1
 	done
 }
 check_finish_connect()
