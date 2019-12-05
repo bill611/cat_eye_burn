@@ -9,13 +9,14 @@ source /etc/ts_env.sh
 echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 
-ulimit -c unlimited
+# ulimit -c unlimited
 cd /root/usr
 
 . /root/usr/net_path.sh
 
 cp face_model/rkdsp.bin /lib/firmware/ 
 insmod rs.ko
+
 
 # 开机加载wifi模块
 ./wifi/wifi_init.sh
@@ -27,6 +28,10 @@ if [ "$wifi_enable" = "1" ]; then
 	# start telnet   
 	busybox telnetd
 fi
-#./monitor.sh &
+
+. /usr/local/sbin/run_adbd.sh &
+
+#./cat_eye &
+./monitor.sh &
 
 
